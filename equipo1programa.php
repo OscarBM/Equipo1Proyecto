@@ -35,14 +35,10 @@
 	
 	#FUNCION para ABRIR HTML
 	function openFile1(){
-		//$myfile1 = fopen("newfile.txt", "w") or die("Unable to open file!");
 		$txt = "John Doe\n";
-		#fwrite($myfile, $txt);
 		$myfile = "newfile.txt";
 		file_put_contents($myfile, $txt, FILE_APPEND | LOCK_EX);
 		$txt = "Jane Doe\n";
-		#fwrite($myfile, $txt);
 		file_put_contents($myfile, $txt, FILE_APPEND | LOCK_EX);
-		#fclose($myfile1);
 	}
 ?>
