@@ -1,6 +1,6 @@
 <?php
 	#VARIABLES		
-	$tiempo_ejecucion_inicio = date("h:i:s");
+	$tiempo_ejecucion_inicio = microtime(true);#date("h:i:s");
 	$archivos;#obtener todos los html
 	$LOG_FILE = "al_equipo1_log.txt";#Este archivo sera el LOG
 	#$lista_archivos = array("red", "green", "blue", "yellow");
@@ -12,29 +12,31 @@
 	$sesion = "======================= SESION: ".date("Y-m-d-h:i:sa")."=======================";
 	file_put_contents($LOG_FILE, $sesion."\n\n\n", FILE_APPEND | LOCK_EX);
 	
-	$tiempo_abrirTodos_inicio = date("h:i:s");#Obtener tiempo de inicio de abrir todos los archivos
+	$tiempo_abrirTodos_inicio = microtime(true);#date("h:i:s");#Obtener tiempo de inicio de abrir todos los archivos
 	
 	#INICIO DE LOOP
 	foreach ($lista_archivos as $value) {
-	  $tiempo_abrirArchivo_inicio = date("h:i:s");
+	  $tiempo_abrirArchivo_inicio = microtime(true);#date("h:i:s");
 	  #funcion abrir archivo
 	  openFile($value);
 	  
 	  #echo "Abri el file ".$value."<br>";
-	  $tiempo_abrirArchivo_final = date("h:i:s");
+	  $tiempo_abrirArchivo_final = microtime(true);#date("h:i:s");
+	  echo $value."________".round($tiempo_abrirArchivo_final - $tiempo_abrirArchivo_inicio,5)." microsegundos<br>";
 	  
 	  #obtener tiempo total de abir archivo actual
 	  #registrar en el log
 	  
 	}
-	
-	$tiempo_abrirTodos_final = date("h:i:s");#Obtener tiempo de inicio de abrir todos los archivos
-	#obtener tiempo total de abrir archivos
+	//sleep(2);
+	$tiempo_abrirTodos_final = microtime(true);#date("h:i:s");#Obtener tiempo de inicio de abrir todos los archivos
+	#echo restarTiempo($tiempo_abrirTodos_final, $tiempo_abrirTodos_inicio); #obtener tiempo total de abrir archivos
+	echo "Tiempo abriendo todos los archivos:  ".round($tiempo_abrirTodos_final - $tiempo_abrirTodos_inicio,5)." microsegundos<br>";
 	
 	#registrar en log
 	
-	$tiempo_ejecucion_final = date("h:i:s");
-	#obtener tempo total ejecucion
+	$tiempo_ejecucion_final = microtime(true);#date("h:i:s");
+	echo "Tiempo de ejecución total:  ".round($tiempo_ejecucion_final - $tiempo_ejecucion_inicio,5)." microsegundos<br>"; #obtener tempo total ejecucion
 	
 	#registrar en el log
 	
@@ -57,10 +59,10 @@
 			#$myfile = fopen("CS13309_Archivos_HTML\Files\002.html", "r") or die("Unable to open file!");
 			$myfile = fopen($filePath, "r") or die("Unable to open file!");
 			#echo fread($myfile,filesize($filePath));
-			echo "Abriendo ".$fileName."<br>";
+			echo "Abriendo ".$fileName."";
 			fclose($myfile);
 		}else {
-			echo "ERROR: no es html<br>";
+			echo "ERROR: no es html";
 		}
 		
 		
