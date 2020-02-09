@@ -3,7 +3,10 @@
 	$tiempo_ejecucion_inicio = date("h:i:s");
 	$archivos;#obtener todos los html
 	$LOG_FILE = "al_equipo1_log.txt";#Este archivo sera el LOG
-	$colors = array("red", "green", "blue", "yellow");
+	#$lista_archivos = array("red", "green", "blue", "yellow");
+	$LISTA_PATH = "CS13309_Archivos_HTML/Files/";
+	$lista_archivos = scandir($LISTA_PATH);
+	#$MENSAJE_ERROR = "ERROR: ";
 	
 	#crear sesion para el archivo LOG
 	$sesion = "======================= SESION: ".date("Y-m-d-h:i:sa")."=======================";
@@ -12,12 +15,12 @@
 	$tiempo_abrirTodos_inicio = date("h:i:s");#Obtener tiempo de inicio de abrir todos los archivos
 	
 	#INICIO DE LOOP
-	foreach ($colors as $value) {
-	  #echo "$value <br>";
+	foreach ($lista_archivos as $value) {
 	  $tiempo_abrirArchivo_inicio = date("h:i:s");
 	  #funcion abrir archivo
-	  #openFile();
-	  echo "Abri el file ".$value."<br>";
+	  openFile($value);
+	  
+	  #echo "Abri el file ".$value."<br>";
 	  $tiempo_abrirArchivo_final = date("h:i:s");
 	  
 	  #obtener tiempo total de abir archivo actual
@@ -37,12 +40,50 @@
 	
 	
 	#FUNCION para ABRIR HTML
-	function openFile(){
-		$txt = "John Doe\n";
-		$myfile = "newfile.txt";
-		file_put_contents($myfile, $txt, FILE_APPEND | LOCK_EX);
-		$txt = "Jane Doe\n";
-		file_put_contents($myfile, $txt, FILE_APPEND | LOCK_EX);
+	function openFile($fileName){
+		#$txt = "John Doe\n";
+		#$myfile = "newfile.txt";
+		#file_put_contents($myfile, $txt, FILE_APPEND | LOCK_EX);
+		#$txt = "Jane Doe\n";
+		#file_put_contents($myfile, $txt, FILE_APPEND | LOCK_EX);
+		
+		#$filePath = "002w.html";
+		#$filePath = $_SERVER['DOCUMENT_ROOT']."/CS13309_Archivos_HTML/Files/002.html";
+		#$filePath = "CS13309_Archivos_HTML/Files/005.html";
+		$filePath = "CS13309_Archivos_HTML/Files/".$fileName;
+		$partes_archivo = pathinfo($filePath);
+		
+		if($partes_archivo['extension'] == "html"){
+			#$myfile = fopen("CS13309_Archivos_HTML\Files\002.html", "r") or die("Unable to open file!");
+			$myfile = fopen($filePath, "r") or die("Unable to open file!");
+			#echo fread($myfile,filesize($filePath));
+			echo "Abriendo ".$fileName."<br>";
+			fclose($myfile);
+		}else {
+			echo "ERROR: no es html<br>";
+		}
+		
+		
+	}
+	
+	
+	
+	#FUNCION para obtener TIEMPO transcurrido
+	function restarTiempo($t_Fin_, $t_Ini_){
+		$t_Ini_components = explode(":", $t_Ini_);
+		$t_Fin_components = explode(":", $t_Fin_);
+		
+		$t_Fin_inSeconds = $t_Fin_components[0]*60*60 + $t_Fin_components[1]*60 + $t_Fin_components[2];
+		$t_Ini_inSeconds = $t_Ini_components[0]*60*60 + $t_Ini_components[1]*60 + $t_Ini_components[2];
+		$t_Total_inSeconds = $t_Fin_inSeconds - $t_Ini_inSeconds;
+
+		$t_Total_sec = $t_Total_inSeconds % 60;
+		$t_Total_min = (($t_Total_inSeconds - $t_Total_sec) / 60) % 60;
+		$t_Total_h = ($t_Total_inSeconds - $t_Total_sec - $t_Total_min*60) / 60 / 60;
+
+		return str_pad((int) $t_Total_h,2,"0",STR_PAD_LEFT).":"
+			  .str_pad((int) $t_Total_min,2,"0",STR_PAD_LEFT).":"
+			  .str_pad((int) $t_Total_sec,2,"0",STR_PAD_LEFT);
 	}
 	
 	
