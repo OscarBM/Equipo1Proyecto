@@ -16,13 +16,13 @@
 	
 	#INICIO DE LOOP
 	foreach ($lista_archivos as $value) {
-	  $tiempo_abrirArchivo_inicio = microtime(true);#date("h:i:s");
+	  #$tiempo_abrirArchivo_inicio = microtime(true);#date("h:i:s");
 	  #funcion abrir archivo
 	  openFile($value);
 	  
 	  #echo "Abri el file ".$value."<br>";
-	  $tiempo_abrirArchivo_final = microtime(true);#date("h:i:s");
-	  echo $value."________".round($tiempo_abrirArchivo_final - $tiempo_abrirArchivo_inicio,5)." microsegundos<br>";
+	  #$tiempo_abrirArchivo_final = microtime(true);#date("h:i:s");
+	  #echo $value."________".round($tiempo_abrirArchivo_final - $tiempo_abrirArchivo_inicio,5)." microsegundos<br>";
 	  
 	  #obtener tiempo total de abir archivo actual
 	  #registrar en el log
@@ -43,6 +43,7 @@
 	
 	#FUNCION para ABRIR HTML
 	function openFile($fileName){
+		$tiempo_abrirArchivo_inicio = microtime(true);#date("h:i:s");
 		#$txt = "John Doe\n";
 		#$myfile = "newfile.txt";
 		#file_put_contents($myfile, $txt, FILE_APPEND | LOCK_EX);
@@ -61,10 +62,12 @@
 			#echo fread($myfile,filesize($filePath));
 			echo "Abriendo ".$fileName."";
 			fclose($myfile);
-		}else {
-			echo "ERROR: no es html";
-		}
+			$tiempo_abrirArchivo_final = microtime(true);#date("h:i:s");
+			echo $fileName."________".round($tiempo_abrirArchivo_final - $tiempo_abrirArchivo_inicio,5)." microsegundos<br>";
 		
+		}else {
+			echo "ERROR: no es html<br>";
+		}
 		
 	}
 	
