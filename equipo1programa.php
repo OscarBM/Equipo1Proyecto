@@ -31,12 +31,13 @@
 	//sleep(2);
 	$tiempo_abrirTodos_final = microtime(true);#date("h:i:s");#Obtener tiempo de inicio de abrir todos los archivos
 	#echo restarTiempo($tiempo_abrirTodos_final, $tiempo_abrirTodos_inicio); #obtener tiempo total de abrir archivos
-	echo "Tiempo abriendo todos los archivos:  ".round($tiempo_abrirTodos_final - $tiempo_abrirTodos_inicio,5)." microsegundos<br>";
-	
-	#registrar en log
+	file_put_contents($LOG_FILE, "\n", FILE_APPEND | LOCK_EX);
+	echo $log_abrir_total = "Tiempo abriendo todos los archivos:  ".round($tiempo_abrirTodos_final - $tiempo_abrirTodos_inicio,5)." microsegundos<br>";
+	file_put_contents($LOG_FILE, $log_abrir_total."\n", FILE_APPEND | LOCK_EX); #registrar en log
 	
 	$tiempo_ejecucion_final = microtime(true);#date("h:i:s");
-	echo "Tiempo de ejecución total:  ".round($tiempo_ejecucion_final - $tiempo_ejecucion_inicio,5)." microsegundos<br>"; #obtener tempo total ejecucion
+	echo $log_ejecucion_total = "Tiempo de ejecución total:  ".round($tiempo_ejecucion_final - $tiempo_ejecucion_inicio,5)." microsegundos<br>"; #obtener tempo total ejecucion
+	file_put_contents($LOG_FILE, $log_ejecucion_total."\n", FILE_APPEND | LOCK_EX);
 	
 	#registrar en el log
 	
@@ -63,7 +64,9 @@
 			echo "Abriendo ".$fileName."";
 			fclose($myfile);
 			$tiempo_abrirArchivo_final = microtime(true);#date("h:i:s");
-			echo $fileName."________".round($tiempo_abrirArchivo_final - $tiempo_abrirArchivo_inicio,5)." microsegundos<br>";
+			echo $log_archivo_individual = $fileName."________".round($tiempo_abrirArchivo_final - $tiempo_abrirArchivo_inicio,5)." microsegundos<br>";
+			global $LOG_FILE;
+			file_put_contents($LOG_FILE, $log_archivo_individual."\n", FILE_APPEND | LOCK_EX);
 		
 		}else {
 			echo "ERROR: no es html<br>";
